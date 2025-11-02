@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body{
+      margin:0;height:100vh;display:flex;align-items:center;justify-content:center;
+      background:#000;color:#fff;font-family:"Cormorant Garamond",serif;overflow:hidden;
+    }
+    .container{display:flex;flex-direction:column;align-items:center;transform:scale(0.85);}
+
+    .profile{width:90px;height:90px;border-radius:50%;overflow:hidden;margin-bottom:1.5rem;}
+    .profile img{width:100%;height:100%;object-fit:cover;display:block;}
+
+    /* ── 打字機段落（用內層固定寬度來置中） ── */
+    .typeblock{display:block;margin:0.3rem 0 1.5rem 0;white-space:nowrap;}
+    #typeInner{
+      display:flex;justify-content:center;align-items:center;
+      height:2.2rem;line-height:2.2rem;margin:0 auto; /* 由 JS 設定 width，這裡負責置中 */
+    }
+    #typer{
+      display:inline-block;margin:0;font-size:1.8rem;font-weight:500;
+      letter-spacing:0.03em;text-shadow:0 0 8px rgba(255,255,255,.2);
+    }
+    .caret{
+      display:inline-block;width:2px;height:1.2em;margin-left:6px;background:#fff;
+      box-shadow:0 0 8px rgba(255,255,255,.7);animation: caretBlink 1s steps(1,end) infinite;
+      vertical-align:-2px;
+    }
+    @keyframes caretBlink{0%,49%{opacity:1}50%,100%{opacity:0}}
+
+    /* ── LOGO 區 ── */
+    .links{display:flex;gap:1.8rem;margin-top:.6rem;align-items:center;}
+    .links a,.links div{position:relative;display:inline-block;width:24px;height:24px;opacity:0;transform:translateX(-12px);transition:transform .3s;}
+    .links a:hover,.links div:hover{transform:translateX(-12px) scale(1.12);}
+    .links a.ig{width:30px;height:30px;}
+    .links a.ig svg{transform-box:fill-box;transform-origin:50% 50%;transform:scale(1.08);}
+
+    svg{width:100%;height:100%;display:block;fill:#fff;filter:drop-shadow(0 0 6px rgba(255,255,255,.45));animation:iconGlow 4s ease-in-out infinite;}
+    @keyframes iconGlow{0%,100%{filter:drop-shadow(0 0 4px rgba(255,255,255,.3));}50%{filter:drop-shadow(0 0 10px rgba(255,255,255,.8));}}
+
+    @keyframes linkIn{from{opacity:0;transform:translateX(-12px);}to{opacity:1;transform:translateX(0);}}
+    .links.show a,.links.show div{animation:linkIn 1.6s ease forwards;}
+    .links.show a:nth-child(1){animation-delay:.6s;}
+    .links.show a:nth-child(2){animation-delay:1.6s;}
+    .links.show a:nth-child(3){animation-delay:2.6s;}
+    .links.show div:nth-child(4){animation-delay:3.6s;}
+
+    .links div.valo::after{
+      content:attr(data-tip);
+      position:absolute;left:50%;bottom:calc(100% + 10px);
+      transform:translateX(-50%) translateY(6px);
+      background:rgba(255,255,255,.96);color:#000;font-size:12px;letter-spacing:.3px;
+      padding:6px 8px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;
+      box-shadow:0 0 10px rgba(255,255,255,.25);transition:opacity .25s ease,transform .25s ease;
+    }
+    .links div.valo::before{
+      content:"";position:absolute;left:50%;bottom:100%;transform:translateX(-50%);
+      border:6px solid transparent;border-top-color:rgba(255,255,255,.96);opacity:0;transition:opacity .25s ease;
+    }
+    .links div.valo:hover::after{opacity:1;transform:translateX(-50%) translateY(0);}
+    .links div.valo:hover::before{opacity:1;}
+
+    .links div.valo svg{filter:drop-shadow(0 0 3px rgba(255,255,255,.35));}
+    .links div.valo svg:hover{filter:drop-shadow(0 0 6px rgba(255,255,255,.6));}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="profile">
+      <img src="https://media.discordapp.net/attachments/423706250832773130/1434434648271884288/IMG_4663.jpg?ex=690850de&is=6906ff5e&hm=07b0713814d43e6e0ceb21efc7ea087653bdc71def1c916d4c8ada0a54381406&=&format=webp&width=731&height=730" alt="Lu Avatar">
+    </div>
+
+    <!-- 段落 + 打字機（置中由 #typeInner 寬度控制） -->
+    <div class="typeblock" id="typeText">
+      <div id="typeInner">
+        <span id="typer"></span><span class="caret"></span>
+      </div>
+    </div>
+
+    <div class="links" id="links">
+      <a class="ig" href="https://www.instagram.com/fps_luu/" target="_blank" title="Instagram">
+        <svg viewBox="0 0 448 512"><path d="M224,202.7a53.3,53.3,0,1,0,53.3,53.3A53.4,53.4,0,0,0,224,202.7Zm124.7-41a54,54,0,0,0-30.2-30.2C295.8,124,224,124,224,124s-71.8,0-94.5,7.5a54,54,0,0,0-30.2,30.2C94,177.2,94,256,94,256s0,78.8,7.5,101.5a54,54,0,0,0,30.2,30.2c22.7,7.5,94.5,7.5,94.5,7.5s71.8,0,94.5-7.5a54,54,0,0,0,30.2-30.2C354,334.8,354,256,354,256S354,177.2,348.7,161.7ZM224,338a82,82,0,1,1,82-82A82.1,82.1,0,0,1,224,338Zm86.8-167.7a19.2,19.2,0,1,1,19.2-19.2A19.2,19.2,0,0,1,310.8,170.3Z"/></svg>
+      </a>
+      <a href="https://www.twitch.tv/luxn7_" target="_blank" title="Twitch">
+        <svg viewBox="0 0 512 512"><path d="M80 0L32 96v320h128v96h96l96-96h96l64-64V0H80zm352 288h-80l-80 80v-80h-64V64h224v224z"/><path d="M240 96h32v128h-32zM336 96h32v128h-32z"/></svg>
+      </a>
+      <a href="https://open.spotify.com/user/11142719133" target="_blank" title="Spotify">
+        <svg viewBox="0 0 496 512"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.7 359.5c-5.1 7.9-15.9 10.3-23.8 5.2-65.3-40-147.5-49-244.6-26.6-9.2 2.1-18.5-3.6-20.7-12.8-2.1-9.2 3.6-18.5 12.8-20.7 105.2-24.3 196.2-13.2 268.5 30.1 7.8 5.2 10.2 15.9 5.1 24.8zm31.5-70.8c-6.4 9.8-19.5 12.8-29.3 6.4-74.7-47.7-188.9-61.5-277.2-33.3-10.8 3.3-22.3-2.9-25.6-13.7-3.3-10.8 2.9-22.3 13.7-25.6 99.8-31.3 224.8-16.2 308.7 37.1 9.7 6.4 12.7 19.5 6.4 29.1zm2.9-78.4C319 167.9 193.4 152.7 99.3 183c-12.1 3.9-25.2-2.8-29-14.9-3.9-12.1 2.8-25.2 14.9-29 108-33.1 246.4-17.8 319.1 29.5 10.7 6.8 13.8 20.8 7 31.5-6.9 10.8-21 13.9-31.6 7z"/></svg>
+      </a>
+      <div class="valo" data-tip="Kuromi Sayo #1017">
+        <svg viewBox="0 0 256 200" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#FFFFFF" d="M16 12 L128 188 L92 188 L58 200 L16 140 Z"/>
+          <path fill="#FFFFFF" d="M236 20 L172 120 L214 120 L236 96 Z"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const lines = ["Welcome", "I'm Lu"];
+    const typer = document.getElementById("typer");
+    const links = document.getElementById("links");
+    const inner = document.getElementById("typeInner");
+
+    const TYPE_MS = 180;
+    const ERASE_MS = 150;
+    const HOLD_MS  = 5000;
+    const GAP_MS   = 300;
+
+    // 用實際字寬量測，設定 #typeInner 寬度，讓整個打字區塊「真正置中且不跳動」
+    (function lockWidth(){
+      const probe = document.createElement("span");
+      probe.style.cssText = "visibility:hidden;position:absolute;white-space:nowrap;font-size:1.8rem;font-weight:500;font-family:'Cormorant Garamond',serif;";
+      probe.textContent = lines.reduce((a,b)=> a.length>b.length?a:b, "");
+      document.body.appendChild(probe);
+      inner.style.width = Math.ceil(probe.getBoundingClientRect().width)+12 + "px"; // +游標間距
+      document.body.removeChild(probe);
+    })();
+
+    const sleep = ms => new Promise(r=>setTimeout(r, ms));
+
+    async function type(text){
+      typer.textContent = "";
+      let logoShown = false;
+      for (let i=1;i<=text.length;i++){
+        typer.textContent = text.slice(0,i);
+        if (!logoShown && text==="Welcome" && i===1){
+          links.classList.add("show");
+          logoShown = true;
+        }
+        await sleep(TYPE_MS);
+      }
+    }
+    async function erase(){
+      const s = typer.textContent;
+      for (let i=s.length-1;i>=0;i--){
+        typer.textContent = s.slice(0,i);
+        await sleep(ERASE_MS);
+      }
+    }
+    async function loop(){
+      let idx=0;
+      while(true){
+        await type(lines[idx%lines.length]);
+        await sleep(HOLD_MS);
+        await erase();
+        await sleep(GAP_MS);
+        idx++;
+      }
+    }
+
+    (document.readyState==="loading")
+      ? document.addEventListener("DOMContentLoaded", loop, {once:true})
+      : loop();
+  </script>
+</body>
+</html>
